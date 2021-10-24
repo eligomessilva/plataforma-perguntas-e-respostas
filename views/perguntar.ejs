@@ -1,0 +1,34 @@
+<%- include('partials/header') %>
+
+    <body>
+
+        <%- include('partials/navbar')%>
+            <div class="container">
+
+                <div class="card" id="formulario-pergunta">
+                    <div class="card-header">
+                        <h3>Realizar pergunta</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/salvarpergunta">
+                            <label>
+                                <h3>Titulo</h3>
+                            </label>
+                            <input type="text" placeholder="Titulo" class="form-control" name="titulo">
+
+                            <br><label>Descriçao</label>
+
+                            <textarea placeholder="Descreva sua pergunta aqui" class="form-control"
+                                name="descricao"></textarea>
+                            <br>
+                            <button class="btn btn-outline-success">Perguntar</button>
+                            <!--existes outros tipos de button-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </body>
+    <%- include('partials/footer') %>
+
+
+        <!--pegar dados enviados pelo formulario instalar biblioteca body-parser  -->
