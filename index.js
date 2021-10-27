@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require("body-Parser");
 const connection = require("./database/database");
 const Pergunta = require("./database/Perguntas"); // Modeel esta representando a tabela no javascript
+const Resposta = require("./database/resposta");
 
 connection
     .authenticate()
@@ -24,9 +25,11 @@ app.use(bodyParser.json()); // ( 3 )
 
 //rotas
 app.get("/", (req, res) => {
-    Pergunta.findAll({ raw: true, order:[// ASC= crescente .. DESC=decrecente, para ordenar as perguntas 
-        ['id', 'DESC'] 
-    ] }).then(perguntas => {// este metodo é responsavel por procurar todas  as pergunta da tabela e retornar para gente, raw quer dizer pesquisa cru, so traze os dados 
+    Pergunta.findAll({
+        raw: true, order: [// ASC= crescente .. DESC=decrecente, para ordenar as perguntas 
+            ['id', 'DESC']
+        ]
+    }).then(perguntas => {// este metodo é responsavel por procurar todas  as pergunta da tabela e retornar para gente, raw quer dizer pesquisa cru, so traze os dados 
         res.render("index", {
             perguntas: perguntas // assim  mando as perguntas para o frontend.
         });
@@ -56,8 +59,33 @@ app.post("/salvarpergunta", (req, res) => {
     });
 });
 
+app.get("/pergunta/:id", (req, res) => {
+    var id = req.params.id;
+    Pergunta.findOne({
+        where: { id: id }  //where serve para fazer condições 
+    }).then(pergunta => { //
+        if (pergunta != undefined) {       //pergunta encontrada
+            res.render("pergunta", {
+                pergunta: pergunta
+                // estou usando na viwes
+            });
+        } else {           //nao encontrada
+            res.redirect("/");
+        }
+    });
 
+})
 
+app.post("/responder", (req, res) => {
+    var corpo = req.body.corpo;
+    var perguntaId = req.body.pergunta;
+    Resposta.create({
+        corpo: corpo,
+        perguntaId: perguntaId
+    }).then(() => {
+        res.redirect("/pergunta/" + perguntaId);
+    });
+});
 
 
 

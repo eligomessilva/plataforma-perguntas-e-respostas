@@ -8,6 +8,7 @@ const Pergunta = connection.define('perguntas', {
         type: Sequelize.STRING,            // para criar campo nome,tipo , tipo string texto curto e text longo
         allowNull: false                   // impedide  que o campo receba valor   nulo
     },
+
     descricao: {
         type: Sequelize.TEXT,
         allowNull: false
