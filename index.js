@@ -26,7 +26,7 @@ app.use(bodyParser.json()); // ( 3 )
 //rotas
 app.get("/", (req, res) => {
     Pergunta.findAll({
-        raw: true, order: [// ASC= crescente .. DESC=decrecente, para ordenar as perguntas 
+        raw: true, order: [// ASC= crescente .. DESC=decrecente, para ordenar as perguntas metodo de ordenar 
             ['id', 'DESC']
         ]
     }).then(perguntas => {// este metodo é responsavel por procurar todas  as pergunta da tabela e retornar para gente, raw quer dizer pesquisa cru, so traze os dados 
@@ -64,12 +64,21 @@ app.get("/pergunta/:id", (req, res) => {
     Pergunta.findOne({
         where: { id: id }  //where serve para fazer condições 
     }).then(pergunta => { //
-        if (pergunta != undefined) {       //pergunta encontrada
-            res.render("pergunta", {
-                pergunta: pergunta
-                // estou usando na viwes
-            });
-        } else {           //nao encontrada
+        if (pergunta != undefined){       //pergunta encontrada
+           
+            Resposta.findAll({
+               where: {perguntaId: pergunta.id},
+               order:[
+                   ['id' ,'DESC'] 
+                ]
+           }).then(respostas => {
+               res.render("pergunta", {
+                  pergunta: pergunta,
+                  respostas: respostas
+               });
+           });
+     }
+      else {           //nao encontrada
             res.redirect("/");
         }
     });

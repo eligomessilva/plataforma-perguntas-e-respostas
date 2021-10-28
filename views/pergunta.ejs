@@ -15,10 +15,20 @@
                     <h3>Responda</h3>
                     <label>Resposta</label>
                     <textarea placeholder="Digite sua resposta" class="form-control" name="corpo"></textarea><br>
-                    <input type="hidden" nome="pergunta" value="<%= pergunta.id %>">
-                    <!--exibir o id pergunta com teg de exibição do EJS, id carregando dinamico, hidem esconde o campo-->
+                    <input type="hidden" name="pergunta" value="<%= pergunta.id %>">
+                    <!--exibir o id pergunta com teg de exibição do EJS, id carregando dinamico, hiddem esconde o campo-->
                     <button type="submit" class="btn btn-success">Responder</button>
                 </form>
+                <hr>
+                <h1>Respostas</h1>
+                <hr>
+                <% respostas.forEach(resposta => {%>
+                    <div class="card">
+                        <div class="card-body">
+                            <p><%= resposta.corpo %></p>
+                        </div>
+                     </div>
+                <% }) %>
             </div>
     </body>
     <%- include('partials/footer') %>
